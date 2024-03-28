@@ -3,9 +3,13 @@ package com.springtutorconnect.service.Impl;
 import com.springtutorconnect.entity.MaterialEntity;
 import com.springtutorconnect.repository.MaterialRepository;
 import com.springtutorconnect.service.MaterialService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Service
 public class MaterialServiceImpl implements MaterialService {
 
     private final MaterialRepository materialRepository;

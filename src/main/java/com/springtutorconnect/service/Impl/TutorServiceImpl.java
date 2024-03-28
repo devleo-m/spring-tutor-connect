@@ -3,9 +3,14 @@ package com.springtutorconnect.service.Impl;
 import com.springtutorconnect.entity.TutorEntity;
 import com.springtutorconnect.repository.TutorRepository;
 import com.springtutorconnect.service.TutorService;
+import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Transactional
+@Service
 public class TutorServiceImpl implements TutorService {
 
     private final TutorRepository tutorRepository;

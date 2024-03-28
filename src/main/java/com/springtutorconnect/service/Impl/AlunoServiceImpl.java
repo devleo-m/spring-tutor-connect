@@ -5,9 +5,13 @@ import com.springtutorconnect.entity.AlunoEntity;
 import com.springtutorconnect.repository.AgendaRepository;
 import com.springtutorconnect.repository.AlunoRepository;
 import com.springtutorconnect.service.AlunoService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Service
 public class AlunoServiceImpl implements AlunoService {
 
     private final AlunoRepository alunoRepository;

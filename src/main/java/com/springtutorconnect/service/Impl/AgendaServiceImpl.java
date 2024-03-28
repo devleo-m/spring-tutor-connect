@@ -3,9 +3,13 @@ package com.springtutorconnect.service.Impl;
 import com.springtutorconnect.entity.AgendaEntity;
 import com.springtutorconnect.repository.AgendaRepository;
 import com.springtutorconnect.service.AgendaService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Service
 public class AgendaServiceImpl implements AgendaService {
     private final AgendaRepository agendaRepository;
 
