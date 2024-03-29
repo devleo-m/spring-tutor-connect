@@ -19,42 +19,31 @@ public class AlunoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<AlunoEntity>> listarAlunos() {
+    public ResponseEntity<List<AlunoEntity>> getListarAlunos() {
         List<AlunoEntity> alunos = alunoService.listarAluno();
-        return new ResponseEntity<>(alunos, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(alunos);
     }
 
     @PostMapping()
     public ResponseEntity<AlunoEntity> criarAluno(@RequestBody AlunoEntity aluno) {
-        try {
-            AlunoEntity novoAluno = alunoService.criarAluno(aluno);
-            return new ResponseEntity<>(novoAluno, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        AlunoEntity novoAluno = alunoService.criarAluno(aluno);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AlunoEntity> atualizarAluno(@PathVariable Long id, @RequestBody AlunoEntity aluno) {
-        try {
-            AlunoEntity alunoAtualizado = alunoService.atualizarAluno(id, aluno);
-            if (alunoAtualizado != null) {
-                return new ResponseEntity<>(alunoAtualizado, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        AlunoEntity alunoAtualizado = alunoService.atualizarAluno(id, aluno);
+
+        if (alunoAtualizado != null) {
+            return ResponseEntity.ok(alunoAtualizado); // 200 OK
+        } else {
+            return ResponseEntity.notFound().build(); // 404 Not Found
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAluno(@PathVariable Long id) {
-        try {
-            alunoService.excluirAluno(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        alunoService.excluirAluno(id);
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 }
