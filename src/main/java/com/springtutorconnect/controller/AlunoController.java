@@ -18,6 +18,11 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<String> ok(){
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
+    }
+
     @GetMapping()
     public ResponseEntity<List<AlunoEntity>> getListarAlunos() {
         List<AlunoEntity> alunos = alunoService.listarAluno();
