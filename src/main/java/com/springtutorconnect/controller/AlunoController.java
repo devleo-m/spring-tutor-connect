@@ -12,43 +12,39 @@ import java.util.List;
 @RequestMapping("/api/alunos")
 public class AlunoController {
 
-    private final AlunoService alunoService;
+    private final AlunoService service;
 
-    public AlunoController(AlunoService alunoService) {
-        this.alunoService = alunoService;
+    public AlunoController(AlunoService service) {
+        this.service = service;
     }
 
-    @GetMapping("/status")
-    public ResponseEntity<String> ok(){
-        return ResponseEntity.status(HttpStatus.OK).body("ok");
+
+    @GetMapping
+    public ResponseEntity<List<AlunoEntity>> get() {
+        return ResponseEntity.ok(service.buscarTodos());
     }
 
-    @GetMapping()
-    public ResponseEntity<List<AlunoEntity>> getListarAlunos() {
-        List<AlunoEntity> alunos = alunoService.listarAluno();
-        return ResponseEntity.status(HttpStatus.OK).body(alunos);
+    @GetMapping("{id}")
+    public ResponseEntity<AlunoEntity> getId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @PostMapping()
-    public ResponseEntity<AlunoEntity> criarAluno(@RequestBody AlunoEntity aluno) {
-        AlunoEntity novoAluno = alunoService.criarAluno(aluno);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
+    @PostMapping
+    public ResponseEntity<AlunoEntity> post(@RequestBody AlunoEntity request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.criar(request));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AlunoEntity> atualizarAluno(@PathVariable Long id, @RequestBody AlunoEntity aluno) {
-        AlunoEntity alunoAtualizado = alunoService.atualizarAluno(id, aluno);
-
-        if (alunoAtualizado != null) {
-            return ResponseEntity.ok(alunoAtualizado); // 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
-        }
+    @PutMapping("{id}")
+    public ResponseEntity<AlunoEntity> put(
+            @PathVariable Long id, @RequestBody AlunoEntity request
+    ) {
+        return ResponseEntity.ok(service.alterar(id, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarAluno(@PathVariable Long id) {
-        alunoService.excluirAluno(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

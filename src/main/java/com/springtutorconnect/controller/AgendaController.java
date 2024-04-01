@@ -11,38 +11,58 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/agendas")
 public class AgendaController {
-    private final AgendaService agendaService;
+    private final AgendaService service;
 
-    public AgendaController(AgendaService agendaService) {
-        this.agendaService = agendaService;
+    public AgendaController(AgendaService service) {
+        this.service = service;
     }
 
-    @GetMapping()
-    public ResponseEntity<List<AgendaEntity>> listarAgendas() {
-        List<AgendaEntity> agenda = agendaService.listarAgendas();
-        return ResponseEntity.status(HttpStatus.OK).body(agenda);
+    @GetMapping
+    public ResponseEntity<List<AgendaEntity>> get() {
+        return ResponseEntity.ok(service.buscarTodos());
     }
 
-    @PostMapping()
-    public ResponseEntity<AgendaEntity> criarAgenda(@RequestBody AgendaEntity agenda) {
-        AgendaEntity novaAgenda = agendaService.criarAgenda(agenda);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novaAgenda);
+    @GetMapping("{id}")
+    public ResponseEntity<AgendaEntity> getId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AgendaEntity> atualizarAgenda(@PathVariable Long id, @RequestBody AgendaEntity agenda) {
-        AgendaEntity atualarAgenda = agendaService.atualizarAgenda(id, agenda);
-        //return ResponseEntity.status(HttpStatus.OK).body(aluno);
-        if (atualarAgenda != null) {
-            return ResponseEntity.ok(atualarAgenda); // 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
-        }
+    @GetMapping("aluno-id/{alunoId}")
+    public ResponseEntity<List<AgendaEntity>> getAlunoId(@PathVariable Long alunoId) {
+        return ResponseEntity.ok(service.buscarPorAlunoId(alunoId));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarAgenda(@PathVariable Long id) {
-        agendaService.excluirAgenda(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    @GetMapping("aluno-id/{alunoId}/vigentes")
+    public ResponseEntity<List<AgendaEntity>> getProximosPorAlunoId(@PathVariable Long alunoId) {
+        return ResponseEntity.ok(service.buscarProximosPorAlunoId(alunoId));
+    }
+
+    @GetMapping("tutor-id/{tutorId}")
+    public ResponseEntity<List<AgendaEntity>> getTutorId(@PathVariable Long tutorId) {
+        return ResponseEntity.ok(service.buscarPorTutorId(tutorId));
+    }
+
+    @GetMapping("tutor-id/{tutorId}/vigentes")
+    public ResponseEntity<List<AgendaEntity>> getProximosPorTutorId(@PathVariable Long tutorId) {
+        return ResponseEntity.ok(service.buscarProximosPorTutorId(tutorId));
+    }
+
+    @PostMapping
+    public ResponseEntity<AgendaEntity> post(@RequestBody AgendaEntity request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.criar(request));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<AgendaEntity> put(
+            @PathVariable Long id, @RequestBody AgendaEntity request
+    ) {
+        return ResponseEntity.ok(service.alterar(id, request));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -12,38 +12,43 @@ import java.util.List;
 @RequestMapping("/api/materiais")
 public class MaterialController {
 
-    private final MaterialService materialService;
+    private final MaterialService service;
 
-    public MaterialController(MaterialService materialService) {
-        this.materialService = materialService;
+    public MaterialController(MaterialService service) {
+        this.service = service;
     }
 
-    @GetMapping()
-    public ResponseEntity<List<MaterialEntity>> getListarMateriais() {
-        List<MaterialEntity> material = materialService.listarMaterial();
-        return ResponseEntity.status(HttpStatus.OK).body(material);
+    @GetMapping
+    public ResponseEntity<List<MaterialEntity>> get() {
+        return ResponseEntity.ok(service.buscarTodos());
     }
 
-    @PostMapping()
-    public ResponseEntity<MaterialEntity> criarMaterial(@RequestBody MaterialEntity material) {
-        MaterialEntity novoMaterial = materialService.criarMaterial(material);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoMaterial);
+    @GetMapping("{id}")
+    public ResponseEntity<MaterialEntity> getId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MaterialEntity> atualizarMaterial(@PathVariable Long id, @RequestBody MaterialEntity material) {
-        MaterialEntity materialAtualizado = materialService.atualizarMaterial(id, material);
-
-        if (materialAtualizado != null) {
-            return ResponseEntity.ok(materialAtualizado); // 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
-        }
+    @GetMapping("agenda-id/{agendaId}")
+    public ResponseEntity<List<MaterialEntity>> getAgendaId(@PathVariable Long agendaId) {
+        return ResponseEntity.ok(service.buscarPorAgenda(agendaId));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarMaterial(@PathVariable Long id) {
-        materialService.excluirMaterial(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    @PostMapping
+    public ResponseEntity<MaterialEntity> post(@RequestBody MaterialEntity request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.criar(request));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<MaterialEntity> put(
+            @PathVariable Long id, @RequestBody MaterialEntity request
+    ) {
+        return ResponseEntity.ok(service.alterar(id, request));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

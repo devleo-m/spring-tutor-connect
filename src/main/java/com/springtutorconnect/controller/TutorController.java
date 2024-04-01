@@ -12,38 +12,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tutores")
 public class TutorController {
-    private final TutorService tutorService;
+    private final TutorService service;
 
-    public TutorController(TutorService tutorService) {
-        this.tutorService = tutorService;
+    public TutorController(TutorService service) {
+        this.service = service;
     }
 
-    @GetMapping()
-    public ResponseEntity<List<TutorEntity>> listarTutores() {
-        List<TutorEntity> tutor = tutorService.listarTutor();
-        return ResponseEntity.status(HttpStatus.OK).body(tutor);
+    @GetMapping
+    public ResponseEntity<List<TutorEntity>> get() {
+        return ResponseEntity.ok(service.buscarTodos());
     }
 
-    @PostMapping()
-    public ResponseEntity<TutorEntity> criarTutor(@RequestBody TutorEntity tutor) {
-        TutorEntity novoTutor = tutorService.criarTutor(tutor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoTutor);
+    @GetMapping("{id}")
+    public ResponseEntity<TutorEntity> getId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TutorEntity> atualizarTutor(@PathVariable Long id, @RequestBody TutorEntity tutor) {
-        TutorEntity tutorAtualizado = tutorService.atualizarTutor(id, tutor);
-
-        if (tutorAtualizado != null) {
-            return ResponseEntity.ok(tutorAtualizado); // 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
-        }
+    @PostMapping
+    public ResponseEntity<TutorEntity> post(@RequestBody TutorEntity request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.criar(request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarTutor(@PathVariable Long id) {
-        tutorService.excluirTutor(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    @PutMapping("{id}")
+    public ResponseEntity<TutorEntity> put(
+            @PathVariable Long id, @RequestBody TutorEntity request
+    ) {
+        return ResponseEntity.ok(service.alterar(id, request));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }
