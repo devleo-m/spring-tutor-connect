@@ -1,7 +1,7 @@
 package com.springtutorconnect.service.Impl;
 
 import com.springtutorconnect.entity.TutorEntity;
-import com.springtutorconnect.exception.Error.NotFoundException;
+import com.springtutorconnect.exception.NotFoundException;
 import com.springtutorconnect.repository.TutorRepository;
 import com.springtutorconnect.service.TutorService;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,39 +14,42 @@ import java.util.List;
 @Service
 public class TutorServiceImpl implements TutorService {
 
-    private final TutorRepository tutorRepository;
 
-    public TutorServiceImpl(TutorRepository tutorRepository) {
-        this.tutorRepository = tutorRepository;
+    private final TutorRepository repository;
+
+    public TutorServiceImpl(TutorRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public TutorEntity criarTutor(TutorEntity tutor) {
-        return tutorRepository.save(tutor);
+    public List<TutorEntity> buscarTodos() {
+        return repository.findAll();
     }
 
     @Override
-    public TutorEntity listarTutorPorId(Long id) {
-        return tutorRepository.findById(id)
-                .orElseThrow( () -> new NotFoundException("Aluno não encontrado com id: "+ id));
+    public TutorEntity buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        "Tutor não encontrado com id: " + id
+                ));
     }
 
     @Override
-    public List<TutorEntity> listarTutor() {
-        return tutorRepository.findAll();
+    public TutorEntity criar(TutorEntity entity) {
+        entity.setId(null);
+        return repository.save(entity);
     }
 
     @Override
-    public TutorEntity atualizarTutor(Long id, TutorEntity tutor) {
-        if (tutorRepository.existsById(id)){
-            tutor.setId_tutor(id);
-            return tutorRepository.save(tutor);
-        }
-        return null;
+    public TutorEntity alterar(Long id, TutorEntity entity) {
+        buscarPorId(id);
+        entity.setId(id);
+        return repository.save(entity);
     }
 
     @Override
-    public void excluirTutor(Long id) {
-        tutorRepository.deleteById(id);
+    public void excluir(Long id) {
+        TutorEntity entity = buscarPorId(id);
+        repository.delete(entity);
     }
 }
