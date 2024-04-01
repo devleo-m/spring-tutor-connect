@@ -6,13 +6,13 @@ import com.springtutorconnect.entity.AlunoEntity;
 import java.util.List;
 
 public interface AlunoService {
-    AlunoEntity criarAluno(AlunoEntity aluno);
+    List<AlunoEntity> buscarTodos();
 
-    AlunoEntity listarAlunoPorId(Long id);
+    AlunoEntity buscarPorId(Long id);
 
-    List<AlunoEntity> listarAluno();
+    AlunoEntity criar(AlunoEntity entity);
 
-    AlunoEntity atualizarAluno(Long id, AlunoEntity aluno);
+    AlunoEntity alterar(Long id, AlunoEntity entity);
 
-    void excluirAluno(Long id);
+    void excluir(Long id);
 }

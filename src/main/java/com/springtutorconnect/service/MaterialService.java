@@ -6,13 +6,15 @@ import com.springtutorconnect.entity.MaterialEntity;
 import java.util.List;
 
 public interface MaterialService {
-    MaterialEntity criarMaterial(MaterialEntity material);
+    List<MaterialEntity> buscarTodos();
 
-    MaterialEntity listarMaterialPorId(Long id);
+    MaterialEntity buscarPorId(Long id);
 
-    List<MaterialEntity> listarMaterial();
+    List<MaterialEntity> buscarPorAgenda(Long agendaId);
 
-    MaterialEntity atualizarMaterial(Long id, MaterialEntity material);
+    MaterialEntity criar(MaterialEntity entity);
 
-    void excluirMaterial(Long id);
+    MaterialEntity alterar(Long id, MaterialEntity entity);
+
+    void excluir(Long id);
 }

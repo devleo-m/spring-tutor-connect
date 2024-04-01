@@ -6,13 +6,13 @@ import com.springtutorconnect.entity.TutorEntity;
 import java.util.List;
 
 public interface TutorService {
-    TutorEntity criarTutor(TutorEntity tutor);
+    List<TutorEntity> buscarTodos();
 
-    TutorEntity listarTutorPorId(Long id);
+    TutorEntity buscarPorId(Long id);
 
-    List<TutorEntity> listarTutor();
+    TutorEntity criar(TutorEntity entity);
 
-    TutorEntity atualizarTutor(Long id, TutorEntity tutor);
+    TutorEntity alterar(Long id, TutorEntity entity);
 
-    void excluirTutor(Long id);
+    void excluir(Long id);
 }

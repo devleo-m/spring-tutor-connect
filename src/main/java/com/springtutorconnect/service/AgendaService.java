@@ -5,14 +5,23 @@ import com.springtutorconnect.entity.AgendaEntity;
 import java.util.List;
 
 public interface AgendaService {
-    AgendaEntity criarAgenda(AgendaEntity agenda);
 
-    AgendaEntity listarAgendaPorId(Long id);
+    List<AgendaEntity> buscarTodos();
 
-    List<AgendaEntity> listarAgendas();
+    AgendaEntity buscarPorId(Long id);
 
-    AgendaEntity atualizarAgenda(Long id, AgendaEntity agenda);
+    AgendaEntity criar(AgendaEntity entity);
 
-    void excluirAgenda(Long id);
+    AgendaEntity alterar(Long id, AgendaEntity entity);
+
+    void excluir(Long id);
+
+    List<AgendaEntity> buscarPorAlunoId(Long alunoId);
+
+    List<AgendaEntity> buscarProximosPorAlunoId(Long alunoId);
+
+    List<AgendaEntity> buscarPorTutorId(Long tutorId);
+
+    List<AgendaEntity> buscarProximosPorTutorId(Long tutorId);
 
 }
