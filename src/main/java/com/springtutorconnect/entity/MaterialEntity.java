@@ -12,7 +12,13 @@ public class MaterialEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_material;
-    private Long id_agenda;
+
+    @ManyToOne
+    @JoinColumn(name = "id_agenda", nullable = false)
+    private MaterialEntity id_agenda;
+
     private String descricao_material;
+
+    @Column(nullable = false)
     private String caminho_arquivo;
 }

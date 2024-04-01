@@ -12,6 +12,10 @@ public class TutorEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_tutor;
+
+    @Column(nullable = false)
     private String nome_tutor;
+
+    @Column(nullable = false)
     private String especialidade_tutor;
 }
