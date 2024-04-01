@@ -1,6 +1,7 @@
 package com.springtutorconnect.service.Impl;
 
 import com.springtutorconnect.entity.MaterialEntity;
+import com.springtutorconnect.exception.Error.NotFoundException;
 import com.springtutorconnect.repository.MaterialRepository;
 import com.springtutorconnect.service.MaterialService;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,12 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public MaterialEntity criarMaterial(MaterialEntity material) {
         return materialRepository.save(material);
+    }
+
+    @Override
+    public MaterialEntity listarMaterialPorId(Long id) {
+        return materialRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("Aluno não encontrado com id: "+ id));
     }
 
     @Override

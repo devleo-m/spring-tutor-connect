@@ -1,6 +1,7 @@
 package com.springtutorconnect.service.Impl;
 
 import com.springtutorconnect.entity.AgendaEntity;
+import com.springtutorconnect.exception.Error.NotFoundException;
 import com.springtutorconnect.repository.AgendaRepository;
 import com.springtutorconnect.service.AgendaService;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,15 @@ public class AgendaServiceImpl implements AgendaService {
 
     @Override
     public AgendaEntity criarAgenda(AgendaEntity agenda) {
+        agenda.setId_agenda(null);
         return agendaRepository.save(agenda);
+    }
+
+    @Override
+    public AgendaEntity listarAgendaPorId(Long id) {
+        return agendaRepository.findById(id)
+                                .orElseThrow( () -> new NotFoundException("Lista de agenda não encontrado com id: "+ id));
+
     }
 
     @Override
@@ -38,6 +47,7 @@ public class AgendaServiceImpl implements AgendaService {
 
     @Override
     public void excluirAgenda(Long id) {
-        agendaRepository.deleteById(id);
+        AgendaEntity agenda = listarAgendaPorId(id);
+        agendaRepository.delete(agenda);
     }
 }

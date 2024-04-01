@@ -2,6 +2,7 @@ package com.springtutorconnect.service.Impl;
 
 import com.springtutorconnect.entity.AgendaEntity;
 import com.springtutorconnect.entity.AlunoEntity;
+import com.springtutorconnect.exception.Error.NotFoundException;
 import com.springtutorconnect.repository.AgendaRepository;
 import com.springtutorconnect.repository.AlunoRepository;
 import com.springtutorconnect.service.AlunoService;
@@ -22,7 +23,14 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public AlunoEntity criarAluno(AlunoEntity aluno) {
+        aluno.setId_aluno(null);
         return alunoRepository.save(aluno);
+    }
+
+    @Override
+    public AlunoEntity listarAlunoPorId(Long id) {
+        return alunoRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("Aluno não encontrado com id: "+ id));
     }
 
     @Override
@@ -41,6 +49,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public void excluirAluno(Long id) {
-        alunoRepository.deleteById(id);
+        AlunoEntity aluno = listarAlunoPorId(id);
+        alunoRepository.delete(aluno);
     }
 }

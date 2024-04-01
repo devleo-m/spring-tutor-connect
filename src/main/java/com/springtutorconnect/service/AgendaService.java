@@ -7,6 +7,8 @@ import java.util.List;
 public interface AgendaService {
     AgendaEntity criarAgenda(AgendaEntity agenda);
 
+    AgendaEntity listarAgendaPorId(Long id);
+
     List<AgendaEntity> listarAgendas();
 
     AgendaEntity atualizarAgenda(Long id, AgendaEntity agenda);

@@ -1,6 +1,7 @@
 package com.springtutorconnect.service.Impl;
 
 import com.springtutorconnect.entity.TutorEntity;
+import com.springtutorconnect.exception.Error.NotFoundException;
 import com.springtutorconnect.repository.TutorRepository;
 import com.springtutorconnect.service.TutorService;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,12 @@ public class TutorServiceImpl implements TutorService {
     @Override
     public TutorEntity criarTutor(TutorEntity tutor) {
         return tutorRepository.save(tutor);
+    }
+
+    @Override
+    public TutorEntity listarTutorPorId(Long id) {
+        return tutorRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("Aluno não encontrado com id: "+ id));
     }
 
     @Override

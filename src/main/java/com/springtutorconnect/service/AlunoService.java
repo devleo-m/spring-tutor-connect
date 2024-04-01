@@ -8,6 +8,8 @@ import java.util.List;
 public interface AlunoService {
     AlunoEntity criarAluno(AlunoEntity aluno);
 
+    AlunoEntity listarAlunoPorId(Long id);
+
     List<AlunoEntity> listarAluno();
 
     AlunoEntity atualizarAluno(Long id, AlunoEntity aluno);
