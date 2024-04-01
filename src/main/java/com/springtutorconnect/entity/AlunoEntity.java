@@ -3,16 +3,16 @@ package com.springtutorconnect.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 @Entity
-@Table(name = "aluno")
-public class AlunoEntity implements Serializable {
+@Table(name = "alunos")
+public class AlunoEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_aluno;
+    private Long id;
 
     @Column(nullable = false)
-    private String nome_aluno;
+    private String nome;
+
 }

@@ -3,19 +3,19 @@ package com.springtutorconnect.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 @Entity
-@Table(name = "tutor")
-public class TutorEntity implements Serializable{
+@Table(name = "tutores")
+public class TutorEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tutor;
+    private Long id;
 
     @Column(nullable = false)
-    private String nome_tutor;
+    private String nome;
 
     @Column(nullable = false)
-    private String especialidade_tutor;
+    private String especialidade;
+
 }

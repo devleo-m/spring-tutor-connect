@@ -3,22 +3,22 @@ package com.springtutorconnect.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 @Entity
-@Table(name = "material")
-public class MaterialEntity implements Serializable {
+@Table(name = "materiais")
+public class MaterialEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_material;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_agenda", nullable = false)
-    private MaterialEntity id_agenda;
+    @JoinColumn(name = "agenda_id", nullable = false)
+    private AgendaEntity agenda;
 
-    private String descricao_material;
+    private String descricao;
 
     @Column(nullable = false)
-    private String caminho_arquivo;
+    private String caminhoArquivo;
+
 }

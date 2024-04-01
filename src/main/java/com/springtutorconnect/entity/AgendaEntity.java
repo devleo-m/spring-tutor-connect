@@ -1,37 +1,38 @@
 package com.springtutorconnect.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "agenda")
-public class AgendaEntity implements Serializable {
+@Table(name = "agendas")
+public class AgendaEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_agenda;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_aluno", nullable = false)
-    private AlunoEntity id_aluno;
+    @JoinColumn(name = "aluno_id", nullable = false)
+    private AlunoEntity aluno;
 
     @ManyToOne
-    @JoinColumn(name = "id_tutor", nullable = false)
-    private TutorEntity id_tutor;
+    @JoinColumn(name = "tutor_id", nullable = false)
+    private TutorEntity tutor;
 
     @Column(nullable = false)
-    private LocalDate data_agenda;
+    private LocalDateTime data;
 
     @Column(nullable = false, length = 10)
-    private String status_agenda;
+    private String status;
 
     @Column(nullable = false, length = 150)
-    private String tema_agenda;
+    private String tema;
 
-    private String descricao_breve;
+    private String descricao;
 
 }
