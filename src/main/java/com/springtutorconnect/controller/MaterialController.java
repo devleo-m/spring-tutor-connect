@@ -13,11 +13,9 @@ import java.util.List;
 public class MaterialController {
 
     private final MaterialService service;
-
     public MaterialController(MaterialService service) {
         this.service = service;
     }
-
     @GetMapping
     public ResponseEntity<List<MaterialEntity>> get() {
         return ResponseEntity.ok(service.buscarTodos());
@@ -27,7 +25,6 @@ public class MaterialController {
     public ResponseEntity<MaterialEntity> getId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
-
     @GetMapping("agenda-id/{agendaId}")
     public ResponseEntity<List<MaterialEntity>> getAgendaId(@PathVariable Long agendaId) {
         return ResponseEntity.ok(service.buscarPorAgenda(agendaId));
